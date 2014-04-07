@@ -12,7 +12,7 @@ class MineSweeper
   end
 
   def parse(s)
-    arr = s.split(",").map{|el| el.to_i - 1}
+    arr = s.split(",").map{|el| el.to_i - 1}.reverse
   end
 
   def valid_pos(p)
@@ -24,17 +24,28 @@ class MineSweeper
 
   def play
 
-    @board = Board.new(prompt("Enter the board size: "))
+    size       = prompt("Enter the board size (Enter none for small): ")
+    size       = "small" if size.empty?
+    quit = false
+    @board     = Board.new(size)
 
-    until won? || lost?
+    until won? || lost? || quit
 
       system("clear")
+
       @board.display
+      @board.cheat
+
 
       begin
-        pos = parse(prompt("Enter a position: "))
-      end until valid_pos(pos)
+          p = prompt("Enter a position (Q to quit): ")
+          quit = true if p == "q"
+          pos = parse(p)
+      end until valid_pos(pos) || quit
 
+      break if quit == true
+
+      puts "PIECE: #{@board[pos].piece}"
 
       begin
         action = prompt("Enter an action (F = flag, R = reveal): ")
@@ -45,9 +56,10 @@ class MineSweeper
     end
   end
 
+
   def won?
 
-    no_unexplored = true
+    no_unexplored     = true
 
     @board.tiles.each do |row|
       row.each do |col|
@@ -58,6 +70,7 @@ class MineSweeper
     no_unexplored
 
   end
+
 
 
   def lost?
@@ -113,22 +126,28 @@ class Tile
 
   def reveal
     if self.is_bomb?
-      piece = BOMBED
+      self.piece   = BOMBED
     else
-
       n = neighbor_bomb_count
 
       if n > 0
-        piece = n.to_s
-      else
+        self.piece = n.to_s
+      elsif self.piece == UNEXPLORED
+        ####DEBUG
+        self.board.display
+        # debugger
+
+        self.piece = INTERIOR
         neighbors.each do |neighbor|
+          next unless neighbor.piece == UNEXPLORED
+          puts "#{neighbor.pos}"
           neighbor.reveal
         end
-
       end
-
     end
+    nil
   end
+
 
 
   def neighbors
@@ -172,8 +191,8 @@ class Board
     num_bombs = 0
     until num_bombs == 10
       tile = self.tiles.sample.sample
-      unless tile.is_bomb
-        tile.is_bomb = true
+      unless tile.is_bomb?
+        tile.bomb = true
         num_bombs += 1
       end
     end
@@ -190,8 +209,23 @@ class Board
     s
   end
 
+  def cheat
+    puts
+    self.tiles.each_with_index do |row, i|
+      row.each_with_index do |col, j|
+        p = "-"
+        p = "B" if self.tiles[i][j].is_bomb?
+        putc p
+        putc " "
+      end
+      putc "\n"
+    end
+  end
+
+
+
   def [](pos)
-    self.tiles[pos[0]][[pos[1]]
+    self.tiles[ pos[0]][pos[1]]
   end
 
   def display
@@ -199,4 +233,8 @@ class Board
   end
 
 
+end
+
+def play
+  MineSweeper.new.play
 end
