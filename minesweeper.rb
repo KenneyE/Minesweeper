@@ -12,47 +12,6 @@ class MineSweeper
     @board = nil
   end
 
-  def get_key
-    begin
-      system("stty raw -echo")
-      str = STDIN.getc
-    ensure
-      system("stty -raw echo")
-    end
-    str.chr
-  end
-
-  def move_cursor(dir)
-    pos = get_cursor
-    self.board[pos].cursor = false
-
-    case dir
-    when 'a'
-      pos[1] -= 1 unless pos[1] <=0
-    when 's'
-      pos[0] += 1 unless pos[0] >= (self.board.height - 1)
-    when 'd'
-      pos[1] += 1 unless pos[1] >= (self.board.width - 1)
-    when 'w'
-      pos[0] -= 1 unless pos[0] <= 0
-    end
-
-    p pos
-    self.board[pos].cursor = true
-  end
-
-    def get_cursor
-      self.board.tiles.each_with_index do |row, i|
-        row.each_with_index do |col, j|
-          if col.cursor
-            return [i, j]
-          end
-        end
-      end
-
-    end
-
-
   def play(filename = "")
     self.board = define_board(filename)
     quit = false
@@ -67,9 +26,6 @@ class MineSweeper
         save_file
         break
       end
-
-      # @board[pos].reveal if action == REVEAL
-#       @board[pos].flag if action == FLAG
     end
 
     self.board.cheat
@@ -78,68 +34,109 @@ class MineSweeper
 
   end
 
-  def get_move
-    k = get_key
-    case k
-    when 'a'
-      move_cursor(k)
-    when 's'
-      move_cursor(k)
-    when 'd'
-      move_cursor(k)
-    when 'w'
-      move_cursor(k)
-    when 'q'
-      self.quit = true
-    when 'r'
-      self.board[get_cursor].reveal
-    when 'f'
-      self.board[get_cursor].flag
+  private
+
+    def get_move
+      k = get_key
+      case k
+      when 'a'
+        move_cursor(k)
+      when 's'
+        move_cursor(k)
+      when 'd'
+        move_cursor(k)
+      when 'w'
+        move_cursor(k)
+      when 'q'
+        self.quit = true
+      when 'r'
+        self.board[get_cursor].reveal
+      when 'f'
+        self.board[get_cursor].flag
+      end
     end
-  end
 
-  def define_board(filename)
-    unless filename.empty?
-      self.board = YAML::load_file(ARGV.shift)
-    else
-      size       = prompt("Enter the board size (Enter none for small): ")
-      size       = "small" if size.empty?
-      self.board     = Board.new(size)
+    def define_board(filename)
+      unless filename.empty?
+        self.board = YAML::load_file(ARGV.shift)
+      else
+        size       = prompt("Enter the board size (Enter none for small): ")
+        size       = "small" if size.empty?
+        self.board     = Board.new(size)
+      end
     end
-  end
 
-  def save_file
-    y = self.board.to_yaml
-    filename = prompt("Enter the filename to save game: ")
-    File.open(filename, "w") {|f| f.print(y)} unless filename.empty?
-  end
-
-  def won?
-    self.board.tiles.each do |row|
-      row.each {|col| return false if col.piece == Tile::UNEXPLORED}
+    def save_file
+      y = self.board.to_yaml
+      filename = prompt("Enter the filename to save game: ")
+      File.open(filename, "w") {|f| f.print(y)} unless filename.empty?
     end
-    true
-  end
 
-  def lost?
-    self.board.tiles.each do |row|
-      row.each { |col| return true if col.piece == Tile::BOMBED }
+    def won?
+      self.board.tiles.each do |row|
+        row.each {|col| return false if col.piece == Tile::UNEXPLORED}
+      end
+      true
     end
-    false
-  end
 
-  def prompt(s)
-    puts(s)
-    return gets.chomp.strip.downcase
-  end
+    def lost?
+      self.board.tiles.each do |row|
+        row.each { |col| return true if col.piece == Tile::BOMBED }
+      end
+      false
+    end
 
-  def parse(s)
-    arr = s.split(",").map{ |el| el.to_i - 1 }.reverse
-  end
+    def prompt(s)
+      puts(s)
+      return gets.chomp.strip.downcase
+    end
 
-  def valid_pos(p)
-    p.length == 2 && p[0].between?(0, @board.width - 1) && p[1].between?(0, @board.height - 1)
-  end
+    def parse(s)
+      arr = s.split(",").map{ |el| el.to_i - 1 }.reverse
+    end
+
+    def valid_pos(p)
+      p.length == 2 && p[0].between?(0, @board.width - 1) && p[1].between?(0, @board.height - 1)
+    end
+
+    def get_key
+      begin
+        system("stty raw -echo")
+        str = STDIN.getc
+      ensure
+        system("stty -raw echo")
+      end
+      str.chr
+    end
+
+    def move_cursor(dir)
+      pos = get_cursor
+      self.board[pos].cursor = false
+
+      case dir
+      when 'a'
+        pos[1] -= 1 unless pos[1] <=0
+      when 's'
+        pos[0] += 1 unless pos[0] >= (self.board.height - 1)
+      when 'd'
+        pos[1] += 1 unless pos[1] >= (self.board.width - 1)
+      when 'w'
+        pos[0] -= 1 unless pos[0] <= 0
+      end
+
+      p pos
+      self.board[pos].cursor = true
+    end
+
+    def get_cursor
+      self.board.tiles.each_with_index do |row, i|
+        row.each_with_index do |col, j|
+          if col.cursor
+            return [i, j]
+          end
+        end
+      end
+    end
 
 end
 
@@ -149,7 +146,6 @@ class Tile
   INTERIOR = "_"
   FLAGGED = "\u2690".encode('utf-8')
   BOMBED = "\u2735".encode('utf-8')
-  #CURRENT_POS = "[]"
 
   DELTAS = [[0, 1], [0, -1], [1, 1], [1, 0],
             [1, -1], [-1, 0], [-1, -1], [-1, 1]]
@@ -169,18 +165,6 @@ class Tile
     bomb
   end
 
-  # def flagged?
-  #   self.piece == FLAGGED
-  # end
-  #
-  # def bombed?
-  #   self.piece == BOMBED
-  # end
-  #
-  # def revealed?
-  #   self.piece == INTERIOR || self.piece.between?('1', '8')
-  # end
-  #
   def flag
     self.piece = FLAGGED
   end
@@ -209,32 +193,37 @@ class Tile
     nil
   end
 
-  def neighbors
-    arr = []
+  private
 
-    DELTAS.each do |rpos|
-      x = self.pos[0] + rpos[0]
-      y = self.pos[1] + rpos[1]
-      if x.between?(0,self.board.width - 1) && y.between?(0,self.board.height - 1)
-        arr << self.board[[x,y]]
+    def neighbors
+      arr = []
+
+      DELTAS.each do |rpos|
+        x = self.pos[0] + rpos[0]
+        y = self.pos[1] + rpos[1]
+        if x.between?(0,self.board.width - 1) && y.between?(0,self.board.height - 1)
+          arr << self.board[[x,y]]
+        end
       end
+
+      arr
     end
 
-    arr
-  end
-
-  def neighbor_bomb_count
-    bomb_count = 0
-    neighbors.each do |neighbor|
-      bomb_count += 1 if neighbor.is_bomb?
+    def neighbor_bomb_count
+      bomb_count = 0
+      neighbors.each do |neighbor|
+        bomb_count += 1 if neighbor.is_bomb?
+      end
+      bomb_count
     end
-    bomb_count
-  end
 end
 
 class Board
+
   CURSOR = "\u25C8".encode('utf-8')
+
   attr_accessor :tiles, :width, :height
+
   def initialize(board_size = "small")
     @width, @height = 8 , 8 if board_size.downcase == "small"
     @tiles = Array.new(@height) { Array.new(@width) {Tile.new([], self)} }
@@ -242,38 +231,12 @@ class Board
     initialize_tiles
   end
 
-  def initialize_tiles
-    self.tiles.each_with_index do |row, i|
-      row.each_with_index do |col, j|
-        self.tiles[i][j].pos = [i, j]
-      end
-    end
-
-    num_bombs = 0
-    until num_bombs == 10
-      tile = self.tiles.sample.sample
-      unless tile.is_bomb?
-        tile.bomb = true
-        num_bombs += 1
-      end
-    end
-
-    self.tiles[0][0].cursor = true
+  def [](pos)
+    self.tiles[ pos[0] ][ pos[1] ]
   end
 
-  def to_s
-    s = ""
-    self.tiles.each_with_index do |row, i|
-      row.each_with_index do |col, j|
-        if self[[i,j]].cursor
-          s += CURSOR + " "
-        else
-          s += self.tiles[i][j].piece + " "
-        end
-      end
-      s += "\n"
-    end
-    s
+  def display
+    puts self.to_s
   end
 
   def cheat
@@ -289,16 +252,41 @@ class Board
     end
   end
 
+  private
 
+    def to_s
+      s = ""
+      self.tiles.each_with_index do |row, i|
+        row.each_with_index do |col, j|
+          if self[[i,j]].cursor
+            s += CURSOR + " "
+          else
+            s += self.tiles[i][j].piece + " "
+          end
+        end
+        s += "\n"
+      end
+      s
+    end
 
-  def [](pos)
-    self.tiles[ pos[0] ][ pos[1] ]
-  end
+    def initialize_tiles
+      self.tiles.each_with_index do |row, i|
+        row.each_with_index do |col, j|
+          self.tiles[i][j].pos = [i, j]
+        end
+      end
 
-  def display
-    puts self.to_s
-  end
+      num_bombs = 0
+      until num_bombs == 10
+        tile = self.tiles.sample.sample
+        unless tile.is_bomb?
+          tile.bomb = true
+          num_bombs += 1
+        end
+      end
 
+      self.tiles[0][0].cursor = true
+    end
 
 end
 
