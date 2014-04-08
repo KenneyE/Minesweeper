@@ -1,6 +1,8 @@
 require 'debugger'
 require 'yaml'
 
+# encoding: utf-8
+
 class MineSweeper
 
   REVEAL = "r"
@@ -220,7 +222,7 @@ end
 
 class Board
 
-  CURSOR = "\u25C8".encode('utf-8')
+  CURSOR = "\u25C8"
 
   attr_accessor :tiles, :width, :height
 
@@ -252,22 +254,24 @@ class Board
     end
   end
 
-  private
 
-    def to_s
-      s = ""
-      self.tiles.each_with_index do |row, i|
-        row.each_with_index do |col, j|
-          if self[[i,j]].cursor
-            s += CURSOR + " "
-          else
-            s += self.tiles[i][j].piece + " "
-          end
+  def to_s
+    s = ""
+    self.tiles.each_with_index do |row, i|
+      row.each_with_index do |col, j|
+        if self[[i,j]].cursor
+          s += CURSOR + " "
+        else
+          s += self.tiles[i][j].piece + " "
         end
-        s += "\n"
       end
-      s
+      s += "\n"
     end
+    s
+  end
+
+
+  private
 
     def initialize_tiles
       self.tiles.each_with_index do |row, i|
