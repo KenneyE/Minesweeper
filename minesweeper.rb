@@ -144,10 +144,10 @@ end
 
 class Tile
 
-  UNEXPLORED = "\u2588".encode('utf-8')
+  UNEXPLORED = "\u2588"
   INTERIOR = "_"
-  FLAGGED = "\u2690".encode('utf-8')
-  BOMBED = "\u2735".encode('utf-8')
+  FLAGGED = "\u2690"
+  BOMBED = "\u2735"
 
   DELTAS = [[0, 1], [0, -1], [1, 1], [1, 0],
             [1, -1], [-1, 0], [-1, -1], [-1, 1]]
