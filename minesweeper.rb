@@ -5,62 +5,124 @@ class MineSweeper
 
   REVEAL = "r"
   FLAG = "f"
+  attr_accessor :board, :quit
 
-  attr_accessor :board
+  def initialize
+    @quit = false
+    @board = nil
+  end
+
+  def get_key
+    begin
+      system("stty raw -echo")
+      str = STDIN.getc
+    ensure
+      system("stty -raw echo")
+    end
+    str.chr
+  end
+
+  def move_cursor(dir)
+    pos = get_cursor
+    self.board[pos].cursor = false
+
+    case dir
+    when 'a'
+      pos[1] -= 1 unless pos[1] <=0
+    when 's'
+      pos[0] += 1 unless pos[0] >= (self.board.height - 1)
+    when 'd'
+      pos[1] += 1 unless pos[1] >= (self.board.width - 1)
+    when 'w'
+      pos[0] -= 1 unless pos[0] <= 0
+    end
+
+    p pos
+    self.board[pos].cursor = true
+  end
+
+    def get_cursor
+      self.board.tiles.each_with_index do |row, i|
+        row.each_with_index do |col, j|
+          if col.cursor
+            return [i, j]
+          end
+        end
+      end
+
+    end
+
 
   def play(filename = "")
-    @board = define_board(filename)
+    self.board = define_board(filename)
     quit = false
 
     until won? || lost? || quit
       system("clear")
-      @board.display
-      @board.cheat
+      self.board.display
+      #debugger
+      move = get_move
 
-      begin
-          p = prompt("Enter a position (Q to quit): ")
-          quit = true if p == "q"
-          pos = parse(p)
-      end until valid_pos(pos) || quit
-
-      if quit
+      if self.quit
         save_file
         break
       end
 
-      begin
-        action = prompt("Enter an action (F = flag, R = reveal): ")
-      end until action == FLAG || action == REVEAL
+      # @board[pos].reveal if action == REVEAL
+#       @board[pos].flag if action == FLAG
+    end
 
-      @board[pos].reveal if action == REVEAL
-      @board[pos].flag if action == FLAG
+    self.board.cheat
+    puts "CONGRATS!!!!!" if won?
+    puts "You lost..." if lost?
+
+  end
+
+  def get_move
+    k = get_key
+    case k
+    when 'a'
+      move_cursor(k)
+    when 's'
+      move_cursor(k)
+    when 'd'
+      move_cursor(k)
+    when 'w'
+      move_cursor(k)
+    when 'q'
+      self.quit = true
+    when 'r'
+      self.board[get_cursor].reveal
+    when 'f'
+      self.board[get_cursor].flag
     end
   end
 
   def define_board(filename)
     unless filename.empty?
-      @board = YAML::load_file(ARGV.shift)
+      self.board = YAML::load_file(ARGV.shift)
     else
       size       = prompt("Enter the board size (Enter none for small): ")
       size       = "small" if size.empty?
-      @board     = Board.new(size)
+      self.board     = Board.new(size)
     end
   end
 
   def save_file
     y = self.board.to_yaml
-    File.open(prompt("Enter the filename to save game: "), "w") {|f| f.print(y)}
+    filename = prompt("Enter the filename to save game: ")
+    File.open(filename, "w") {|f| f.print(y)} unless filename.empty?
   end
 
   def won?
-    @board.tiles.each do |row|
+    self.board.tiles.each do |row|
       row.each {|col| return false if col.piece == Tile::UNEXPLORED}
     end
     true
   end
 
   def lost?
-    @board.tiles.each do |row|
+    self.board.tiles.each do |row|
       row.each { |col| return true if col.piece == Tile::BOMBED }
     end
     false
@@ -83,15 +145,16 @@ end
 
 class Tile
 
-  UNEXPLORED = "*"
+  UNEXPLORED = "\u2588".encode('utf-8')
   INTERIOR = "_"
-  FLAGGED = "F"
-  BOMBED = "B"
+  FLAGGED = "\u2690".encode('utf-8')
+  BOMBED = "\u2735".encode('utf-8')
+  #CURRENT_POS = "[]"
 
   DELTAS = [[0, 1], [0, -1], [1, 1], [1, 0],
             [1, -1], [-1, 0], [-1, -1], [-1, 1]]
 
-  attr_accessor :piece, :bomb, :pos
+  attr_accessor :piece, :bomb, :pos, :cursor
   attr_reader :board
 
   def initialize(pos = [], board)
@@ -99,6 +162,7 @@ class Tile
     @pos = pos
     @board = board
     @bomb = false
+    @cursor = false
   end
 
   def is_bomb?
@@ -145,8 +209,6 @@ class Tile
     nil
   end
 
-
-
   def neighbors
     arr = []
 
@@ -171,6 +233,7 @@ class Tile
 end
 
 class Board
+  CURSOR = "\u25C8".encode('utf-8')
   attr_accessor :tiles, :width, :height
   def initialize(board_size = "small")
     @width, @height = 8 , 8 if board_size.downcase == "small"
@@ -194,13 +257,19 @@ class Board
         num_bombs += 1
       end
     end
+
+    self.tiles[0][0].cursor = true
   end
 
   def to_s
     s = ""
     self.tiles.each_with_index do |row, i|
       row.each_with_index do |col, j|
-        s += self.tiles[i][j].piece + " "
+        if self[[i,j]].cursor
+          s += CURSOR + " "
+        else
+          s += self.tiles[i][j].piece + " "
+        end
       end
       s += "\n"
     end
@@ -211,8 +280,8 @@ class Board
     puts
     self.tiles.each_with_index do |row, i|
       row.each_with_index do |col, j|
-        p = "-"
-        p = "B" if self.tiles[i][j].is_bomb?
+        p = Tile::INTERIOR
+        p = Tile::BOMBED if self.tiles[i][j].is_bomb?
         putc p
         putc " "
       end
@@ -223,7 +292,7 @@ class Board
 
 
   def [](pos)
-    self.tiles[ pos[0]][pos[1]]
+    self.tiles[ pos[0] ][ pos[1] ]
   end
 
   def display

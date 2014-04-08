@@ -1,452 +1,516 @@
---- &70219587370300 !ruby/object:Board
+--- &70128170424260 !ruby/object:Board
 height: 8
 width: 8
 tiles:
 - - !ruby/object:Tile
-    piece: _
+    piece: ! '*'
     pos:
     - 0
     - 0
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: true
   - !ruby/object:Tile
-    piece: _
+    piece: ! '*'
     pos:
     - 0
     - 1
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: true
   - !ruby/object:Tile
-    piece: _
+    piece: ! '*'
     pos:
     - 0
     - 2
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
-    piece: _
+    piece: ! '*'
     pos:
     - 0
     - 3
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
-    piece: '1'
+    piece: ! '*'
     pos:
     - 0
     - 4
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 0
     - 5
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 0
     - 6
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 0
     - 7
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
-- - !ruby/object:Tile
-    piece: _
-    pos:
-    - 1
-    - 0
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: _
-    pos:
-    - 1
-    - 1
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: '1'
-    pos:
-    - 1
-    - 2
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: '1'
-    pos:
-    - 1
-    - 3
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: '2'
-    pos:
-    - 1
-    - 4
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 1
-    - 5
-    board: *70219587370300
-    bomb: true
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 1
-    - 6
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 1
-    - 7
-    board: *70219587370300
-    bomb: true
-- - !ruby/object:Tile
-    piece: '1'
-    pos:
-    - 2
-    - 0
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: '1'
-    pos:
-    - 2
-    - 1
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: '2'
-    pos:
-    - 2
-    - 2
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 2
-    - 3
-    board: *70219587370300
-    bomb: true
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 2
-    - 4
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 2
-    - 5
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 2
-    - 6
-    board: *70219587370300
-    bomb: true
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 2
-    - 7
-    board: *70219587370300
-    bomb: true
+    cursor: false
 - - !ruby/object:Tile
     piece: ! '*'
     pos:
+    - 1
+    - 0
+    board: *70128170424260
+    bomb: true
+    cursor: true
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 1
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 2
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 3
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 4
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 5
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 6
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 1
+    - 7
+    board: *70128170424260
+    bomb: false
+    cursor: false
+- - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 0
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 1
+    board: *70128170424260
+    bomb: true
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 2
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 3
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 4
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 5
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 6
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 2
+    - 7
+    board: *70128170424260
+    bomb: true
+    cursor: false
+- - !ruby/object:Tile
+    piece: ! '*'
+    pos:
     - 3
     - 0
-    board: *70219587370300
-    bomb: true
+    board: *70128170424260
+    bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 1
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 2
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 3
-    board: *70219587370300
-    bomb: true
+    board: *70128170424260
+    bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 4
-    board: *70219587370300
-    bomb: false
+    board: *70128170424260
+    bomb: true
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 5
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 6
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 3
     - 7
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
 - - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 0
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 1
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 2
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 3
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 4
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 5
-    board: *70219587370300
-    bomb: true
+    board: *70128170424260
+    bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 6
-    board: *70219587370300
+    board: *70128170424260
     bomb: false
+    cursor: false
   - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 4
     - 7
-    board: *70219587370300
-    bomb: true
+    board: *70128170424260
+    bomb: false
+    cursor: false
 - - !ruby/object:Tile
     piece: ! '*'
     pos:
     - 5
     - 0
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 1
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 2
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 3
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 4
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 5
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 6
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 5
-    - 7
-    board: *70219587370300
-    bomb: false
-- - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 0
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 1
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 2
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 3
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 4
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 5
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 6
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 6
-    - 7
-    board: *70219587370300
-    bomb: false
-- - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 0
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 1
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 2
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 3
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 4
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 5
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 6
-    board: *70219587370300
-    bomb: false
-  - !ruby/object:Tile
-    piece: ! '*'
-    pos:
-    - 7
-    - 7
-    board: *70219587370300
+    board: *70128170424260
     bomb: true
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 1
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 2
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 3
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 4
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 5
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 6
+    board: *70128170424260
+    bomb: true
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 5
+    - 7
+    board: *70128170424260
+    bomb: true
+    cursor: false
+- - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 0
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 1
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 2
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 3
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 4
+    board: *70128170424260
+    bomb: true
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 5
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 6
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 6
+    - 7
+    board: *70128170424260
+    bomb: false
+    cursor: false
+- - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 0
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 1
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 2
+    board: *70128170424260
+    bomb: true
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 3
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 4
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 5
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 6
+    board: *70128170424260
+    bomb: false
+    cursor: false
+  - !ruby/object:Tile
+    piece: ! '*'
+    pos:
+    - 7
+    - 7
+    board: *70128170424260
+    bomb: true
+    cursor: false
