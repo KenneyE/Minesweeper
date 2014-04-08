@@ -1,6 +1,6 @@
 require 'debugger'
 require 'yaml'
-
+require 'colorize'
 # encoding: utf-8
 
 class MineSweeper
@@ -144,9 +144,9 @@ end
 
 class Tile
 
-  UNEXPLORED = "\u2588"
+  UNEXPLORED = "\u2588".colorize(:green)
   INTERIOR = "_"
-  FLAGGED = "\u2690"
+  FLAGGED = "\u2690".colorize(:red)
   BOMBED = "\u2735"
 
   DELTAS = [[0, 1], [0, -1], [1, 1], [1, 0],
