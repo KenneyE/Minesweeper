@@ -1,41 +1,21 @@
 require 'debugger'
-
+require 'yaml'
 
 class MineSweeper
 
   REVEAL = "r"
   FLAG = "f"
 
-  def prompt(s)
-    puts(s)
-    return gets.chomp.strip.downcase
-  end
-
-  def parse(s)
-    arr = s.split(",").map{|el| el.to_i - 1}.reverse
-  end
-
-  def valid_pos(p)
-    p.length == 2 && p[0].between?(0, @board.width - 1) && p[1].between?(0, @board.height - 1)
-  end
-
-
   attr_accessor :board
 
-  def play
-
-    size       = prompt("Enter the board size (Enter none for small): ")
-    size       = "small" if size.empty?
+  def play(filename = "")
+    @board = define_board(filename)
     quit = false
-    @board     = Board.new(size)
 
     until won? || lost? || quit
-
       system("clear")
-
       @board.display
       @board.cheat
-
 
       begin
           p = prompt("Enter a position (Q to quit): ")
@@ -43,9 +23,10 @@ class MineSweeper
           pos = parse(p)
       end until valid_pos(pos) || quit
 
-      break if quit == true
-
-      puts "PIECE: #{@board[pos].piece}"
+      if quit
+        save_file
+        break
+      end
 
       begin
         action = prompt("Enter an action (F = flag, R = reveal): ")
@@ -56,33 +37,46 @@ class MineSweeper
     end
   end
 
-
-  def won?
-
-    no_unexplored     = true
-
-    @board.tiles.each do |row|
-      row.each do |col|
-        no_unexplored = false if col.piece == Tile::UNEXPLORED
-      end
+  def define_board(filename)
+    unless filename.empty?
+      @board = YAML::load_file(ARGV.shift)
+    else
+      size       = prompt("Enter the board size (Enter none for small): ")
+      size       = "small" if size.empty?
+      @board     = Board.new(size)
     end
-
-    no_unexplored
-
   end
 
+  def save_file
+    y = self.board.to_yaml
+    File.open(prompt("Enter the filename to save game: "), "w") {|f| f.print(y)}
+  end
 
+  def won?
+    @board.tiles.each do |row|
+      row.each {|col| return false if col.piece == Tile::UNEXPLORED}
+    end
+    true
+  end
 
   def lost?
-
-    bombed = false
-
     @board.tiles.each do |row|
-      row.each do |col|
-        bombed = true if col.piece == Tile::BOMBED
-      end
+      row.each { |col| return true if col.piece == Tile::BOMBED }
     end
-    bombed
+    false
+  end
+
+  def prompt(s)
+    puts(s)
+    return gets.chomp.strip.downcase
+  end
+
+  def parse(s)
+    arr = s.split(",").map{ |el| el.to_i - 1 }.reverse
+  end
+
+  def valid_pos(p)
+    p.length == 2 && p[0].between?(0, @board.width - 1) && p[1].between?(0, @board.height - 1)
   end
 
 end
@@ -93,6 +87,9 @@ class Tile
   INTERIOR = "_"
   FLAGGED = "F"
   BOMBED = "B"
+
+  DELTAS = [[0, 1], [0, -1], [1, 1], [1, 0],
+            [1, -1], [-1, 0], [-1, -1], [-1, 1]]
 
   attr_accessor :piece, :bomb, :pos
   attr_reader :board
@@ -108,18 +105,18 @@ class Tile
     bomb
   end
 
-  def flagged?
-    self.piece == FLAGGED
-  end
-
-  def bombed?
-    self.piece == BOMBED
-  end
-
-  def revealed?
-    self.piece == INTERIOR || self.piece.between?('1', '8')
-  end
-
+  # def flagged?
+  #   self.piece == FLAGGED
+  # end
+  #
+  # def bombed?
+  #   self.piece == BOMBED
+  # end
+  #
+  # def revealed?
+  #   self.piece == INTERIOR || self.piece.between?('1', '8')
+  # end
+  #
   def flag
     self.piece = FLAGGED
   end
@@ -134,13 +131,13 @@ class Tile
         self.piece = n.to_s
       elsif self.piece == UNEXPLORED
         ####DEBUG
-        self.board.display
+        #self.board.display
         # debugger
 
         self.piece = INTERIOR
         neighbors.each do |neighbor|
           next unless neighbor.piece == UNEXPLORED
-          puts "#{neighbor.pos}"
+          #puts "#{neighbor.pos}"
           neighbor.reveal
         end
       end
@@ -152,12 +149,13 @@ class Tile
 
   def neighbors
     arr = []
-    relative_pos = [[0,1], [0,-1],[1,1], [1,0], [1,-1], [-1,0], [-1,-1], [-1, 1]]
-    relative_pos.each do |rpos|
+
+    DELTAS.each do |rpos|
       x = self.pos[0] + rpos[0]
       y = self.pos[1] + rpos[1]
-
-      arr << self.board[[x,y]] if x.between?(0,self.board.width - 1) && y.between?(0,self.board.height - 1)
+      if x.between?(0,self.board.width - 1) && y.between?(0,self.board.height - 1)
+        arr << self.board[[x,y]]
+      end
     end
 
     arr
@@ -235,6 +233,5 @@ class Board
 
 end
 
-def play
-  MineSweeper.new.play
-end
+m = MineSweeper.new
+m.play(ARGV)
